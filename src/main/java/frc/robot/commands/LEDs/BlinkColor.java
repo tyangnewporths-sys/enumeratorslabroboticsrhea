@@ -26,30 +26,39 @@ public final class BlinkColor extends Command {
 
   /** Creates a new BlinkColor. */
   public BlinkColor(LEDSubsystem led, Colors color) {
-    // your code here
+    setName(String.format("BlinkColor(%s)", color.name()));
+    this.led = led;
+    this.color = color;
+    addRequirements(led);
   }
 
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    // your code here
+    led.fill(color.getColor());
+    led.display();
+    isOn = true;
+    blinkTimer.restart();
   }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    // your code here
+      led.fill(BLACK.getColor());
+      led.display();
+      isOn = false;
   }
 
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
-    // your code here
+   led.fill(BLACK.getColor());
+   led.display();
   }
 
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    // your code here
+    return !isOn;
   }
 }
